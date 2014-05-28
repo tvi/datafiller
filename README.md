@@ -1,5 +1,6 @@
 datafiller
 ==========
+[![Build Status](https://drone.io/github.com/erggo/datafiller/status.png)](https://drone.io/github.com/erggo/datafiller/latest)
 
 A Golang package for filling structs by random data.
 
