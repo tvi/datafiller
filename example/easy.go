@@ -1,14 +1,3 @@
-datafiller
-==========
-
-A Golang package for filling structs by random data.
-
-# Installation
-
-`go get github.com/erggo/datafiller`
-
-# Sample Usage
-```go
 package main
 
 import (
@@ -35,4 +24,3 @@ func main() {
 	}
 	fmt.Println(string(b))
 }
-```
