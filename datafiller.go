@@ -23,6 +23,18 @@ func recursiveSet(val reflect.Value) {
 		} else if val.Kind() == reflect.Ptr {
 			recursiveSet(reflect.Indirect(val))
 			return
+		} else if val.Kind() == reflect.Slice {
+			// TODO(tvi): Fix slice length.
+			typ := val.Type()
+			elem := typ.Elem()
+			nw := reflect.Zero(elem)
+			m := reflect.MakeSlice(typ,0,1)
+			m = reflect.Append(m, nw)
+			m = reflect.Append(m, nw)
+			val.Set(m)
+			recursiveSet(val.Index(0))
+			recursiveSet(val.Index(1))
+			return
 		}
 	}
 }

@@ -14,7 +14,10 @@ func TestSimpleInt(t *testing.T) {
 
 type S struct {
 	A string
-	B struct {
+	B []struct {
+		Q []struct {
+			W int
+		}
 		C string
 		D string
 		E int
