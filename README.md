@@ -45,6 +45,7 @@ func main() {
 - [x] structs
 - [x] slices
 - [ ] maps
+- [ ] add documentation
 - [ ] functions
 - [ ] all types
 - [ ] add options for filling such as slice length
