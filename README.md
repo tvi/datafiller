@@ -37,3 +37,15 @@ func main() {
 	fmt.Println(string(b))
 }
 ```
+
+# TODO
+
+- [x] simple types
+- [x] structs
+- [x] slices
+- [ ] maps
+- [ ] functions
+- [ ] all types
+- [ ] add options for filling such as slice length
+- [ ] smart tagged struct generation
+- [ ] guessing names by names
