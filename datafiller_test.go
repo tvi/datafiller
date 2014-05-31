@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"testing"
+	"time"
 )
 
 func TestSimpleInt(t *testing.T) {
@@ -26,6 +27,25 @@ type S struct {
 
 func TestSimpleStruct(t *testing.T) {
 	i := S{}
+	Fill(&i)
+
+	b, err := json.Marshal(i)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(string(b))
+
+	fmt.Println(i)
+}
+
+type A struct {
+	T time.Time
+	Q string
+}
+
+func TestSimpleTimeStruct(t *testing.T) {
+	i := A{}
 	Fill(&i)
 
 	b, err := json.Marshal(i)

@@ -1,10 +1,24 @@
 package datafiller
 
-import "reflect"
-import "math/rand"
+import (
+	"math/rand"
+	"reflect"
+)
+
+func init() {
+	packages_init()
+}
 
 func recursiveSet(val reflect.Value) {
 	if val.CanSet() {
+		var fullPath string
+		fullPath = val.Type().PkgPath() + "." + val.Type().Name()
+		pkgVal, ok := packages[fullPath]
+		if ok {
+			val.Set(pkgVal)
+			return
+		}
+
 		if val.Kind() == reflect.Int {
 			val.SetInt(rand.Int63n(100))
 			return
@@ -28,7 +42,7 @@ func recursiveSet(val reflect.Value) {
 			typ := val.Type()
 			elem := typ.Elem()
 			nw := reflect.Zero(elem)
-			m := reflect.MakeSlice(typ,0,1)
+			m := reflect.MakeSlice(typ, 0, 1)
 			m = reflect.Append(m, nw)
 			m = reflect.Append(m, nw)
 			val.Set(m)
