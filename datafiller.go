@@ -1,5 +1,6 @@
 package datafiller
 
+import "fmt"
 import "reflect"
 import "math/rand"
 
@@ -35,6 +36,21 @@ func recursiveSet(val reflect.Value) {
 			recursiveSet(val.Index(0))
 			recursiveSet(val.Index(1))
 			return
+		} else if val.Kind() == reflect.Map {
+			typ := val.Type()
+			m := reflect.MakeMap(typ)
+
+			k := reflect.Zero(typ.Key())
+			v := reflect.Zero(typ.Elem())
+
+			recursiveSet(k)
+			recursiveSet(v)
+			m.SetMapIndex(k,v)
+			val.Set(m)
+			fmt.Println("asdf")
+
+			// m.SetMapIndex(l,b)
+			// val.Set(m)
 		}
 	}
 }
