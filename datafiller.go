@@ -1,10 +1,14 @@
 package datafiller
 
+import "fmt"
 import "reflect"
 import "math/rand"
 
 func recursiveSet(val reflect.Value) {
 	if val.CanSet() {
+		fmt.Println(val.Type().Name())
+		fmt.Println(val.Type().PkgPath())
+		
 		if val.Kind() == reflect.Int {
 			val.SetInt(rand.Int63n(100))
 			return
