@@ -44,6 +44,7 @@ func main() {
 - [x] simple types
 - [x] structs
 - [x] slices
+- [ ] specify optional args (builder)
 - [ ] maps
 - [ ] add documentation
 - [ ] functions

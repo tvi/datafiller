@@ -57,3 +57,16 @@ func TestSimpleTimeStruct(t *testing.T) {
 
 	fmt.Println(i)
 }
+
+
+func TestBuilder(t *testing.T) {
+	i := S{}
+	// Filler().withArrayLen(2).withPredefinedString("test").build(&)
+
+	b, err := json.Marshal(i)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(string(b))
+}
