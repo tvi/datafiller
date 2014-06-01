@@ -53,11 +53,13 @@ func recursiveSet(val reflect.Value) {
 	}
 }
 
+// Function Fill takes a pointer to variable of any type and fills the variable
+// by with sample data. It panics if the passed value is not a pointer.
 func Fill(i interface{}) {
 	valPtr := reflect.ValueOf(i)
 
 	if valPtr.Kind() != reflect.Ptr && valPtr.Kind() != reflect.UnsafePointer {
-		panic("Incorrect type.")
+		panic("Passed argument is not a pointer.")
 	}
 
 	val := reflect.Indirect(valPtr)
