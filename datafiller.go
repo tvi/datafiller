@@ -19,10 +19,27 @@ const (
 )
 
 func taggedFieldSet(val reflect.Value, structTag string) {
+	stringDataMap := make(map[string]func() string)
+
+	stringDataMap["address"] = randomdata.Address
+	stringDataMap["city"] = randomdata.City
+	stringDataMap["email"] = randomdata.Email
+	stringDataMap["lastname"] = randomdata.LastName
+	stringDataMap["paragraph"] = randomdata.Paragraph
+	stringDataMap["street"] = randomdata.Street
+	stringDataMap["firstname"] = func() string { return randomdata.FirstName(randomdata.RandomGender) }
+	stringDataMap["name"] = func() string { return randomdata.FullName(randomdata.RandomGender) }
+	stringDataMap["country"] = func() string { return randomdata.Country(0) }
+	stringDataMap["postalcode"] = func() string { return randomdata.PostalCode("US") }
+	stringDataMap["state"] = func() string { return randomdata.State(1) }
+
 	tags := strings.Split(structTag, ",")
 	// TODO(tvi): Design struct tags ordering.
-	if tags[0] == "name" && val.Kind() == reflect.String {
-		val.SetString(randomdata.FullName(randomdata.RandomGender))
+	if val.Kind() == reflect.String {
+		gen, ok := stringDataMap[tags[0]]
+		if ok {
+			val.SetString(gen())
+		}
 	}
 }
 
