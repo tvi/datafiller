@@ -1,12 +1,29 @@
+// Package datafiller implements function for randomly filling passed
+// datastructures by mock sample data.
 package datafiller
 
 import (
 	"math/rand"
 	"reflect"
+	"strings"
+
+	"github.com/Pallinder/go-randomdata"
 )
 
 func init() {
-	packages_init()
+	packagesInit()
+}
+
+const (
+	taggedStructKey = "datafiller"
+)
+
+func taggedFieldSet(val reflect.Value, structTag string) {
+	tags := strings.Split(structTag, ",")
+	// TODO(tvi): Design struct tags ordering.
+	if tags[0] == "name" && val.Kind() == reflect.String {
+		val.SetString(randomdata.FullName(randomdata.RandomGender))
+	}
 }
 
 func recursiveSet(val reflect.Value) {
@@ -30,8 +47,16 @@ func recursiveSet(val reflect.Value) {
 			return
 		} else if val.Kind() == reflect.Struct {
 			lngth := val.NumField()
+			strType := val.Type()
+
 			for i := 0; i < lngth; i++ {
-				recursiveSet(val.Field(i))
+				if strType.Field(i).Tag.Get(taggedStructKey) == "" {
+					recursiveSet(val.Field(i))
+				} else if strType.Field(i).Tag.Get(taggedStructKey) == "-" {
+				} else {
+					advStrTag := strType.Field(i).Tag.Get(taggedStructKey)
+					taggedFieldSet(val.Field(i), advStrTag)
+				}
 			}
 			return
 		} else if val.Kind() == reflect.Ptr {

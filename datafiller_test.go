@@ -57,3 +57,24 @@ func TestSimpleTimeStruct(t *testing.T) {
 
 	fmt.Println(i)
 }
+
+type D struct {
+	Q string `json:"-"`
+	A string `json:"myName,omitempty"`
+	B string `datafiller:"-"`
+	C string `datafiller:"name,omitempty"`
+}
+
+func TestSimpleTaggedStruct(t *testing.T) {
+	i := D{}
+	Fill(&i)
+
+	b, err := json.Marshal(i)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(string(b))
+
+	fmt.Println(i)
+}
