@@ -45,10 +45,11 @@ func main() {
 - [x] structs
 - [x] slices
 - [x] packages
+- [x] simple tagged stucts
+- [ ] smart tagged struct generation
+- [ ] guessing names by names
 - [ ] maps
 - [ ] add documentation
 - [ ] functions
 - [ ] all types
 - [ ] add options for filling such as slice length
-- [ ] smart tagged struct generation
-- [ ] guessing names by names
