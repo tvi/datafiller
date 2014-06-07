@@ -89,6 +89,11 @@ func TestSimpleTypes(t *testing.T) {
 		ifc := testValue.Interface()
 		fmt.Printf("Type: %v; \t\t Value: %v \n", testValue.Kind(), ifc)
 		// TODO(tvi): Figure out mock testing.
+
+		zero := reflect.Zero(testValue.Type())
+		if reflect.DeepEqual(ifc, zero.Interface()) {
+			t.Errorf("Changed value is zero-value (type: %v): value %v, do not want %v", testValue.Type(), zero.Interface(), ifc)
+		}
 	}
 }
 

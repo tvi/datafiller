@@ -53,8 +53,23 @@ func recursiveSet(val reflect.Value) {
 			return
 		}
 
-		if val.Kind() == reflect.Int {
+		if val.Kind() == reflect.Int ||
+			val.Kind() == reflect.Int8 ||
+			val.Kind() == reflect.Int16 ||
+			val.Kind() == reflect.Int32 ||
+			val.Kind() == reflect.Int64 {
 			val.SetInt(rand.Int63n(100))
+			return
+		} else if val.Kind() == reflect.Uint ||
+			val.Kind() == reflect.Uint8 ||
+			val.Kind() == reflect.Uint16 ||
+			val.Kind() == reflect.Uint32 ||
+			val.Kind() == reflect.Uint64 {
+			val.SetUint(uint64(rand.Int63n(100)))
+			return
+		} else if val.Kind() == reflect.Float32 ||
+			val.Kind() == reflect.Float64 {
+			val.SetFloat(float64(rand.Float32()))
 			return
 		} else if val.Kind() == reflect.Bool {
 			val.SetBool(true)
