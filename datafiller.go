@@ -71,6 +71,11 @@ func recursiveSet(val reflect.Value) {
 			val.Kind() == reflect.Float64 {
 			val.SetFloat(float64(rand.Float32()))
 			return
+		} else if val.Kind() == reflect.Complex64 ||
+			val.Kind() == reflect.Complex128 {
+			cpx := complex128(complex(rand.Float32(), rand.Float32()))
+			val.SetComplex(cpx)
+			return
 		} else if val.Kind() == reflect.Bool {
 			val.SetBool(true)
 			return
