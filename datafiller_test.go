@@ -20,7 +20,6 @@ func TestUnassignedInt(t *testing.T) {
 }
 
 func TestSimpleTypes(t *testing.T) {
-	// var InvalidV       invalid
 	var BoolV bool
 	var IntV int
 	var Int8V int8
@@ -32,22 +31,10 @@ func TestSimpleTypes(t *testing.T) {
 	var Uint16V uint16
 	var Uint32V uint32
 	var Uint64V uint64
-	var UintptrV uintptr
 	var Float32V float32
 	var Float64V float64
 	var Complex64V complex64
 	var Complex128V complex128
-
-	// var ArrayV         array
-	// var ChanV          chan
-	// var FuncV          func
-	// var InterfaceV     interface
-	// var MapV           map
-	// var PtrV           ptr
-	// var SliceV         slice
-	// var StringV        string
-	// var StructV        struct
-	// var UnsafePointerV unsafepointer
 
 	tests := []struct {
 		value        interface{}
@@ -64,7 +51,6 @@ func TestSimpleTypes(t *testing.T) {
 		{&Uint16V, reflect.Uint16},
 		{&Uint32V, reflect.Uint32},
 		{&Uint64V, reflect.Uint64},
-		{&UintptrV, reflect.Uintptr},
 		{&Float32V, reflect.Float32},
 		{&Float64V, reflect.Float64},
 		{&Complex64V, reflect.Complex64},
@@ -95,6 +81,28 @@ func TestSimpleTypes(t *testing.T) {
 			t.Errorf("Changed value is zero-value (type: %v): value %v, do not want %v", testValue.Type(), zero.Interface(), ifc)
 		}
 	}
+}
+
+// var ArrayV         array
+// var ChanV          chan
+// var FuncV          func
+// var InterfaceV     interface
+// var MapV           map
+// var PtrV           ptr
+// var SliceV         slice
+// var StringV        string
+// var StructV        struct
+
+func TestComplexTypes(t *testing.T) {
+
+}
+
+// var InvalidV       invalid
+// var UintptrV uintptr
+// var UnsafePointerV unsafepointer
+
+func TestPointerTypes(t *testing.T) {
+
 }
 
 // Tests for debugging
