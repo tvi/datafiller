@@ -127,3 +127,53 @@ func Fill(i interface{}) {
 	val := reflect.Indirect(valPtr)
 	recursiveSet(val)
 }
+
+type Filler struct {
+	Seed     int64
+	ArrayMin int
+	ArrayMax int
+}
+
+type FillerArg interface {
+	AddArg(*Filler)
+}
+
+type Seed int64
+
+func (sed Seed) AddArg(f *Filler) {
+	f.Seed = int64(sed)
+}
+
+type ArrayMin int
+
+func (amn ArrayMin) AddArg(f *Filler) {
+	f.ArrayMin = int(amn)
+}
+
+type ArrayMax int
+
+func (amx ArrayMax) AddArg(f *Filler) {
+	f.ArrayMax = int(amx)
+}
+
+func NewFiller(args ...FillerArg) *Filler {
+	f := &Filler{
+		Seed:     -1,
+		ArrayMin: 1,
+		ArrayMax: 3,
+	}
+	for _, a := range args {
+		a.AddArg(f)
+	}
+	return f
+}
+
+func (f *Filler) Fill(i interface{}) {
+	valPtr := reflect.ValueOf(i)
+
+	if valPtr.Kind() != reflect.Ptr && valPtr.Kind() != reflect.UnsafePointer {
+		panic("Passed argument is not a pointer.")
+	}
+	_ = reflect.Indirect(valPtr)
+	// TODO(tvi): Finish the args passing.
+}
