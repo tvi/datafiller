@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"reflect"
 	"strings"
+	"time"
 
 	"github.com/Pallinder/go-randomdata"
 )
@@ -22,6 +23,7 @@ const (
 // by with sample data. It panics if the passed value is not a pointer.
 func Fill(i interface{}) {
 	f := NewFiller()
+	f.Seed = time.Now().Unix()
 	f.Fill(i)
 }
 
