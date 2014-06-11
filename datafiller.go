@@ -29,6 +29,7 @@ func Fill(i interface{}) {
 
 type Filler struct {
 	Seed     int64
+	randSeed *rand.Rand
 	ArrayMin int
 	ArrayMax int
 }
@@ -75,6 +76,8 @@ func (f *Filler) Fill(i interface{}) {
 	}
 
 	val := reflect.Indirect(valPtr)
+
+	f.randSeed = rand.New(rand.NewSource(f.Seed))
 	f.recursiveSet(val)
 
 }
@@ -119,22 +122,22 @@ func (self *Filler) recursiveSet(val reflect.Value) {
 			val.Kind() == reflect.Int16 ||
 			val.Kind() == reflect.Int32 ||
 			val.Kind() == reflect.Int64 {
-			val.SetInt(rand.Int63n(100))
+			val.SetInt(self.randSeed.Int63n(100))
 			return
 		} else if val.Kind() == reflect.Uint ||
 			val.Kind() == reflect.Uint8 ||
 			val.Kind() == reflect.Uint16 ||
 			val.Kind() == reflect.Uint32 ||
 			val.Kind() == reflect.Uint64 {
-			val.SetUint(uint64(rand.Int63n(100)))
+			val.SetUint(uint64(self.randSeed.Int63n(100)))
 			return
 		} else if val.Kind() == reflect.Float32 ||
 			val.Kind() == reflect.Float64 {
-			val.SetFloat(float64(rand.Float32()))
+			val.SetFloat(float64(self.randSeed.Float32()))
 			return
 		} else if val.Kind() == reflect.Complex64 ||
 			val.Kind() == reflect.Complex128 {
-			cpx := complex128(complex(rand.Float32(), rand.Float32()))
+			cpx := complex128(complex(self.randSeed.Float32(), self.randSeed.Float32()))
 			val.SetComplex(cpx)
 			return
 		} else if val.Kind() == reflect.Bool {
