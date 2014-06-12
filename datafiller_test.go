@@ -105,6 +105,59 @@ func TestPointerTypes(t *testing.T) {
 
 }
 
+
+
+func TestSimpleValues(t *testing.T) {
+	// var BoolV bool
+	var IntV int
+	var Int8V int8
+	var Int16V int16
+	var Int32V int32
+	var Int64V int64
+	var UintV uint
+	var Uint8V uint8
+	var Uint16V uint16
+	var Uint32V uint32
+	var Uint64V uint64
+	var Float32V float32
+	var Float64V float64
+	var Complex64V complex64
+	var Complex128V complex128
+
+	tests := []struct {
+		value        interface{}
+		expectedValue interface{}
+	}{
+		{&IntV, int(55)},
+		{&Int8V, int8(55)},
+		{&Int16V, int16(55)},
+		{&Int32V, int32(55)},
+		{&Int64V, int64(55)},
+		{&UintV, uint(55)},
+		{&Uint8V, uint8(55)},
+		{&Uint16V, uint16(55)},
+		{&Uint32V, uint32(55)},
+		{&Uint64V, uint64(55)},
+		{&Float32V, float32(0.91889215)},
+		{&Float64V, float64(0.9188921451568604)},
+		{&Complex64V, complex(0.91889215,0.23150717)},
+		{&Complex128V, complex(0.9188921451568604,0.23150716722011566)},
+	}
+
+	for _, test := range tests {
+		f := NewFiller(Seed(7))
+		f.Fill(test.value)
+		testValue := reflect.Indirect(reflect.ValueOf(test.value))
+		ifc := testValue.Interface()
+		// fmt.Printf("Type: %v; \t\t Value: %v \n", testValue.Kind(), ifc)
+
+		if !reflect.DeepEqual(ifc, test.expectedValue) {
+			t.Errorf("Value mismatch (type: %v): value %v, want %v", testValue.Type(), ifc, test.expectedValue)
+		}
+	}
+}
+
+
 // Tests for debugging
 
 func TestDebugSimpleInt(t *testing.T) {
