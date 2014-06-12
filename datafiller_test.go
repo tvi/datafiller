@@ -20,7 +20,7 @@ func TestUnassignedInt(t *testing.T) {
 }
 
 func TestSimpleTypes(t *testing.T) {
-	var BoolV bool
+	// var BoolV bool
 	var IntV int
 	var Int8V int8
 	var Int16V int16
@@ -40,7 +40,7 @@ func TestSimpleTypes(t *testing.T) {
 		value        interface{}
 		expectedType reflect.Kind
 	}{
-		{&BoolV, reflect.Bool},
+		// {&BoolV, reflect.Bool},
 		{&IntV, reflect.Int},
 		{&Int8V, reflect.Int8},
 		{&Int16V, reflect.Int16},

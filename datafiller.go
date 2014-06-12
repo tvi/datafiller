@@ -141,7 +141,11 @@ func (self *Filler) recursiveSet(val reflect.Value) {
 			val.SetComplex(cpx)
 			return
 		} else if val.Kind() == reflect.Bool {
-			val.SetBool(true)
+			if self.randSeed.Int63n(2) == 0 {
+				val.SetBool(false)
+			} else {
+				val.SetBool(true)
+			}
 			return
 		} else if val.Kind() == reflect.String {
 			val.SetString("test")
