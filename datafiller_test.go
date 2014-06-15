@@ -3,6 +3,7 @@ package datafiller
 import (
 	"encoding/json"
 	"fmt"
+	"math/rand"
 	"reflect"
 	"testing"
 	"time"
@@ -40,6 +41,7 @@ func TestSimpleTypes(t *testing.T) {
 		value        interface{}
 		expectedType reflect.Kind
 	}{
+		// TODO(tvi): Fix.
 		// {&BoolV, reflect.Bool},
 		{&IntV, reflect.Int},
 		{&Int8V, reflect.Int8},
@@ -119,8 +121,8 @@ func TestSimpleValues(t *testing.T) {
 	var Uint64V uint64
 	var Float32V float32
 	var Float64V float64
-	var Complex64V complex64
-	var Complex128V complex128
+	// var Complex64V complex64
+	// var Complex128V complex128
 
 	tests := []struct {
 		value         interface{}
@@ -138,8 +140,8 @@ func TestSimpleValues(t *testing.T) {
 		{&Uint64V, uint64(55)},
 		{&Float32V, float32(0.91889215)},
 		{&Float64V, float64(0.9188921451568604)},
-		{&Complex64V, complex(0.91889215, 0.23150717)},
-		{&Complex128V, complex(0.9188921451568604, 0.23150716722011566)},
+		// {&Complex64V, complex(0.91889215, 0.23150717)},
+		// {&Complex128V, complex(0.9188921451568604, 0.23150716722011566)},
 	}
 
 	for _, test := range tests {
@@ -147,7 +149,53 @@ func TestSimpleValues(t *testing.T) {
 		f.Fill(test.value)
 		testValue := reflect.Indirect(reflect.ValueOf(test.value))
 		ifc := testValue.Interface()
-		// fmt.Printf("Type: %v; \t\t Value: %v \n", testValue.Kind(), ifc)
+		fmt.Printf("Type: %v; \t\t Value: %v \n", testValue.Kind(), ifc)
+
+		if !reflect.DeepEqual(ifc, test.expectedValue) {
+			t.Errorf("Value mismatch (type: %v): value %v, want %v", testValue.Type(), ifc, test.expectedValue)
+		}
+	}
+}
+
+func clear(r *rand.Rand, s rand.Source) string {
+	newRnd := rand.New(s)
+	// rnd := reflect.Indirect(reflect.ValueOf(r))
+	// rnd.Set(reflect.Indirect(reflect.ValueOf(newRnd)))
+
+	// rnd := reflect.Indirect(reflect.ValueOf(r))
+	// rnd.Set(reflect.Indirect(reflect.ValueOf(newRnd)))
+	reflect.ValueOf(r).Set(reflect.ValueOf(newRnd))
+	// r = rand.New(s)
+	return ""
+}
+
+func TestSimpleValuesGenerate(t *testing.T) {
+	var Complex64V complex64
+	var Complex128V complex128
+
+	// s := rand.NewSource(7)
+	// r := rand.New(s)
+	// TODO(tvi): Hack the rand num generator.
+
+	r1 := rand.New(rand.NewSource(7))
+	r2 := rand.New(rand.NewSource(7))
+	tests := []struct {
+		value         interface{}
+		expectedValue interface{}
+		// dummy         string
+	}{
+		// {&Complex64V, complex(r.Float32(), r.Float32()), clear(r,s)},
+		// {&Complex128V, complex(r.Float64(), r.Float64()), clear(r,s)},
+		{&Complex64V, complex(r1.Float32(), r1.Float32())},
+		{&Complex128V, complex(r2.Float64(), r2.Float64())},
+	}
+
+	for _, test := range tests {
+		f := NewFiller(Seed(7))
+		f.Fill(test.value)
+		testValue := reflect.Indirect(reflect.ValueOf(test.value))
+		ifc := testValue.Interface()
+		fmt.Printf("Type: %v; \t\t Value: %v \n", testValue.Kind(), ifc)
 
 		if !reflect.DeepEqual(ifc, test.expectedValue) {
 			t.Errorf("Value mismatch (type: %v): value %v, want %v", testValue.Type(), ifc, test.expectedValue)
