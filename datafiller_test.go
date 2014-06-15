@@ -105,8 +105,6 @@ func TestPointerTypes(t *testing.T) {
 
 }
 
-
-
 func TestSimpleValues(t *testing.T) {
 	// var BoolV bool
 	var IntV int
@@ -125,7 +123,7 @@ func TestSimpleValues(t *testing.T) {
 	var Complex128V complex128
 
 	tests := []struct {
-		value        interface{}
+		value         interface{}
 		expectedValue interface{}
 	}{
 		{&IntV, int(55)},
@@ -140,8 +138,8 @@ func TestSimpleValues(t *testing.T) {
 		{&Uint64V, uint64(55)},
 		{&Float32V, float32(0.91889215)},
 		{&Float64V, float64(0.9188921451568604)},
-		{&Complex64V, complex(0.91889215,0.23150717)},
-		{&Complex128V, complex(0.9188921451568604,0.23150716722011566)},
+		{&Complex64V, complex(0.91889215, 0.23150717)},
+		{&Complex128V, complex(0.9188921451568604, 0.23150716722011566)},
 	}
 
 	for _, test := range tests {
@@ -156,7 +154,6 @@ func TestSimpleValues(t *testing.T) {
 		}
 	}
 }
-
 
 // Tests for debugging
 
