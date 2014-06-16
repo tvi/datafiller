@@ -135,9 +135,12 @@ func (self *Filler) recursiveSet(val reflect.Value) {
 			val.Kind() == reflect.Float64 {
 			val.SetFloat(float64(self.randSeed.Float32()))
 			return
-		} else if val.Kind() == reflect.Complex64 ||
-			val.Kind() == reflect.Complex128 {
+		} else if val.Kind() == reflect.Complex64 {
 			cpx := complex128(complex(self.randSeed.Float32(), self.randSeed.Float32()))
+			val.SetComplex(cpx)
+			return
+		} else if val.Kind() == reflect.Complex128 {
+			cpx := complex128(complex(self.randSeed.Float64(), self.randSeed.Float64()))
 			val.SetComplex(cpx)
 			return
 		} else if val.Kind() == reflect.Bool {
