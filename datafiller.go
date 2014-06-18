@@ -170,6 +170,10 @@ func (self *Filler) recursiveSet(val reflect.Value) {
 		} else if val.Kind() == reflect.Ptr {
 			self.recursiveSet(reflect.Indirect(val))
 			return
+		} else if val.Kind() == reflect.Map {
+			// nm := reflect.NewMap
+			// TODO(tvi): Finish.
+			return
 		} else if val.Kind() == reflect.Slice {
 			// TODO(tvi): Fix slice length.
 			typ := val.Type()
