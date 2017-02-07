@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/erggo/datafiller"
+	"github.com/tvi/datafiller"
 )
 
 type S struct {
