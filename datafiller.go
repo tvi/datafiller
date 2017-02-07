@@ -168,6 +168,9 @@ func (self *Filler) recursiveSet(val reflect.Value) {
 			}
 			return
 		} else if val.Kind() == reflect.Ptr {
+			tp := val.Type().Elem()
+			nw := reflect.New(tp)
+			val.Set(nw)
 			self.recursiveSet(reflect.Indirect(val))
 			return
 		} else if val.Kind() == reflect.Map {
