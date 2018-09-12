@@ -116,14 +116,12 @@ type PFE struct {
 }
 
 func TestPointerTypesFilling(t *testing.T) {
-	expectedOutput := PFF{}
-	Fill(&expectedOutput)
 	i := PFE{}
 
 	Fill(&i)
 
-	if i.PFF == nil || i.PFF.PFQ == "" || i.PFF.PFQ != expectedOutput.PFQ {
-		t.Errorf("Fill error: Pointer not filled: %v, want %v", i.PFF, expectedOutput)
+	if i.PFF == nil || i.PFF.PFQ == "" {
+		t.Errorf("Fill error: Pointer not filled: %v", i.PFF)
 	}
 }
 
