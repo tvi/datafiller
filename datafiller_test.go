@@ -7,6 +7,8 @@ import (
 	"reflect"
 	"testing"
 	"time"
+
+	null "gopkg.in/guregu/null.v3"
 )
 
 // Actual tests
@@ -81,6 +83,30 @@ func TestSimpleTypes(t *testing.T) {
 		zero := reflect.Zero(testValue.Type())
 		if reflect.DeepEqual(ifc, zero.Interface()) {
 			t.Errorf("Changed value is zero-value (type: %v): value %v, do not want %v", testValue.Type(), zero.Interface(), ifc)
+		}
+	}
+}
+
+type PackageTest struct {
+	NullInt  null.Int
+	NullStr  null.String
+	NullBool null.Bool
+}
+
+func TestPackageTypes(t *testing.T) {
+	var p = PackageTest{}
+
+	Fill(&p)
+
+	vals := reflect.ValueOf(p)
+
+	for i := 0; i < vals.NumField(); i++ {
+		field := vals.Field(i).Interface()
+
+		if nullInt, ok := field.(null.Int); ok {
+			if !nullInt.Valid {
+				t.Fatalf("gopkg.in/guregu/null.Int.Valid is not true")
+			}
 		}
 	}
 }

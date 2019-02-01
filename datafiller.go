@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Pallinder/go-randomdata"
+	randomdata "github.com/Pallinder/go-randomdata"
 )
 
 func init() {
@@ -112,6 +112,7 @@ func (self *Filler) recursiveSet(val reflect.Value) {
 		var fullPath string
 		fullPath = val.Type().PkgPath() + "." + val.Type().Name()
 		pkgVal, ok := packages[fullPath]
+
 		if ok {
 			val.Set(pkgVal)
 			return
