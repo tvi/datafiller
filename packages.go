@@ -11,7 +11,7 @@ import (
 var packages = make(map[string]reflect.Value)
 
 func packagesInit() {
-	randSeed := rand.New(rand.NewSource(-1))
+	randSeed := rand.New(rand.NewSource(time.Now().Unix() + rand.Int63n(100)))
 	packages["time.Time"] = reflect.ValueOf(time.Unix(rand.Int63n(2000000000), 0))
 	// guregu/null structs have Valid field that is a bool.
 	// this field was occasionally randomly set to false, meaning whatever value was passsed

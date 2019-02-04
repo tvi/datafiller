@@ -26,8 +26,10 @@ const (
 //generate random string with len 10
 func generateString() string {
 	b := make([]byte, 10)
+	randSeed := rand.New(rand.NewSource(time.Now().Unix() + rand.Int63n(100)))
+
 	for i := 0; i < 10; {
-		if idx := int(rand.Int63() & letterIdxMask); idx < len(letterBytes) {
+		if idx := int(randSeed.Int63() & letterIdxMask); idx < len(letterBytes) {
 			b[i] = letterBytes[idx]
 			i++
 		}
