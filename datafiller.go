@@ -18,10 +18,22 @@ func init() {
 const (
 	taggedStructKey = "datafiller"
 	// for random string generation
-	letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	letterBytes   = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	letterIdxBits = 6                    // 6 bits to represent a letter index
 	letterIdxMask = 1<<letterIdxBits - 1 // All 1-bits, as many as letterIdxBits
 )
+
+//generate random string with len 10
+func generateString() string {
+	b := make([]byte, 10)
+	for i := 0; i < 10; {
+		if idx := int(rand.Int63() & letterIdxMask); idx < len(letterBytes) {
+			b[i] = letterBytes[idx]
+			i++
+		}
+	}
+	return string(b)
+}
 
 // Function Fill takes a pointer to variable of any type and fills the variable
 // by with sample data. It panics if the passed value is not a pointer.
@@ -157,14 +169,7 @@ func (self *Filler) recursiveSet(val reflect.Value) {
 			return
 		} else if val.Kind() == reflect.String {
 			//generate random string with len 10
-			b := make([]byte, 10)
-			for i := 0; i < 10; {
-				if idx := int(rand.Int63() & letterIdxMask); idx < len(letterBytes) {
-					b[i] = letterBytes[idx]
-					i++
-				}
-			}
-			val.SetString(string(b))
+			val.SetString(generateString())
 			return
 		} else if val.Kind() == reflect.Struct {
 			lngth := val.NumField()
