@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Pallinder/go-randomdata"
+	randomdata "github.com/Pallinder/go-randomdata"
 )
 
 func init() {
@@ -17,7 +17,25 @@ func init() {
 
 const (
 	taggedStructKey = "datafiller"
+	// for random string generation
+	letterBytes   = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	letterIdxBits = 6                    // 6 bits to represent a letter index
+	letterIdxMask = 1<<letterIdxBits - 1 // All 1-bits, as many as letterIdxBits
 )
+
+//generate random string with len 10
+func generateString() string {
+	b := make([]byte, 10)
+	randSeed := rand.New(rand.NewSource(time.Now().Unix() + rand.Int63n(100)))
+
+	for i := 0; i < 10; {
+		if idx := int(randSeed.Int63() & letterIdxMask); idx < len(letterBytes) {
+			b[i] = letterBytes[idx]
+			i++
+		}
+	}
+	return string(b)
+}
 
 // Function Fill takes a pointer to variable of any type and fills the variable
 // by with sample data. It panics if the passed value is not a pointer.
@@ -112,6 +130,7 @@ func (self *Filler) recursiveSet(val reflect.Value) {
 		var fullPath string
 		fullPath = val.Type().PkgPath() + "." + val.Type().Name()
 		pkgVal, ok := packages[fullPath]
+
 		if ok {
 			val.Set(pkgVal)
 			return
@@ -151,7 +170,8 @@ func (self *Filler) recursiveSet(val reflect.Value) {
 			}
 			return
 		} else if val.Kind() == reflect.String {
-			val.SetString("test")
+			//generate random string with len 10
+			val.SetString(generateString())
 			return
 		} else if val.Kind() == reflect.Struct {
 			lngth := val.NumField()

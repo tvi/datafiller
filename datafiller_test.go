@@ -7,6 +7,8 @@ import (
 	"reflect"
 	"testing"
 	"time"
+
+	null "gopkg.in/guregu/null.v3"
 )
 
 // Actual tests
@@ -85,6 +87,30 @@ func TestSimpleTypes(t *testing.T) {
 	}
 }
 
+type PackageTest struct {
+	NullInt  null.Int
+	NullStr  null.String
+	NullBool null.Bool
+}
+
+func TestPackageTypes(t *testing.T) {
+	var p = PackageTest{}
+
+	Fill(&p)
+
+	vals := reflect.ValueOf(p)
+
+	for i := 0; i < vals.NumField(); i++ {
+		field := vals.Field(i).Interface()
+
+		if nullInt, ok := field.(null.Int); ok {
+			if !nullInt.Valid {
+				t.Fatalf("gopkg.in/guregu/null.Int.Valid is not true")
+			}
+		}
+	}
+}
+
 // var ArrayV         array
 // var ChanV          chan
 // var FuncV          func
@@ -116,14 +142,12 @@ type PFE struct {
 }
 
 func TestPointerTypesFilling(t *testing.T) {
-	expectedOutput := PFF{}
-	Fill(&expectedOutput)
 	i := PFE{}
 
 	Fill(&i)
 
-	if i.PFF == nil || i.PFF.PFQ == "" || i.PFF.PFQ != expectedOutput.PFQ {
-		t.Errorf("Fill error: Pointer not filled: %v, want %v", i.PFF, expectedOutput)
+	if i.PFF == nil || i.PFF.PFQ == "" {
+		t.Errorf("Fill error: Pointer not filled: %v", i.PFF)
 	}
 }
 
