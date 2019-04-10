@@ -3,7 +3,8 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/tvi/datafiller"
+
+	"datafiller"
 )
 
 type S struct {
