@@ -18,7 +18,7 @@ func init() {
 const (
 	taggedStructKey = "datafiller"
 	// for random string generation
-	letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	letterBytes   = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	letterIdxBits = 6                    // 6 bits to represent a letter index
 	letterIdxMask = 1<<letterIdxBits - 1 // All 1-bits, as many as letterIdxBits
 )
@@ -156,8 +156,8 @@ func (self *Filler) recursiveSet(val reflect.Value) {
 			return
 		} else if val.Kind() == reflect.String {
 			//generate random string with len 10
-			b := make([]byte, 10)
-			for i := 0; i < 10; {
+			b := make([]byte, 12)
+			for i := 0; i < 12; {
 				if idx := int(rand.Int63() & letterIdxMask); idx < len(letterBytes) {
 					b[i] = letterBytes[idx]
 					i++
