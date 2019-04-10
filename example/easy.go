@@ -1,10 +1,9 @@
 package main
 
 import (
+	"datafiller"
 	"encoding/json"
 	"fmt"
-
-	"datafiller"
 )
 
 type S struct {
