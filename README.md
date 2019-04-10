@@ -7,7 +7,7 @@ A Golang package for filling structs by random data.
 
 # Installation
 
-`go get github.com/erggo/datafiller`
+`go get github.com/HelpfulHuman/datafiller`
 
 # Sample Usage
 ```go
@@ -16,7 +16,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/erggo/datafiller"
+	"github.com/HelpfulHuman/datafiller"
 )
 
 type S struct {
