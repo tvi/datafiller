@@ -1,4 +1,4 @@
-module datafiller
+module github.com/HelpfulHuman/datafiller
 
 go 1.12
 
