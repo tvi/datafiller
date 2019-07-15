@@ -17,6 +17,10 @@ func init() {
 
 const (
 	taggedStructKey = "datafiller"
+	// for random string generation
+	letterBytes   = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	letterIdxBits = 6                    // 6 bits to represent a letter index
+	letterIdxMask = 1<<letterIdxBits - 1 // All 1-bits, as many as letterIdxBits
 )
 
 // Function Fill takes a pointer to variable of any type and fills the variable
@@ -122,14 +126,14 @@ func (self *Filler) recursiveSet(val reflect.Value) {
 			val.Kind() == reflect.Int16 ||
 			val.Kind() == reflect.Int32 ||
 			val.Kind() == reflect.Int64 {
-			val.SetInt(self.randSeed.Int63n(100))
+			val.SetInt(self.randSeed.Int63n(100) + 1)
 			return
 		} else if val.Kind() == reflect.Uint ||
 			val.Kind() == reflect.Uint8 ||
 			val.Kind() == reflect.Uint16 ||
 			val.Kind() == reflect.Uint32 ||
 			val.Kind() == reflect.Uint64 {
-			val.SetUint(uint64(self.randSeed.Int63n(100)))
+			val.SetUint(uint64(self.randSeed.Int63n(100) + 1))
 			return
 		} else if val.Kind() == reflect.Float32 ||
 			val.Kind() == reflect.Float64 {
@@ -151,7 +155,15 @@ func (self *Filler) recursiveSet(val reflect.Value) {
 			}
 			return
 		} else if val.Kind() == reflect.String {
-			val.SetString("test")
+			//generate random string with len 10
+			b := make([]byte, 12)
+			for i := 0; i < 12; {
+				if idx := int(rand.Int63() & letterIdxMask); idx < len(letterBytes) {
+					b[i] = letterBytes[idx]
+					i++
+				}
+			}
+			val.SetString(string(b))
 			return
 		} else if val.Kind() == reflect.Struct {
 			lngth := val.NumField()
