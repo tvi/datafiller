@@ -126,14 +126,14 @@ func (self *Filler) recursiveSet(val reflect.Value) {
 			val.Kind() == reflect.Int16 ||
 			val.Kind() == reflect.Int32 ||
 			val.Kind() == reflect.Int64 {
-			val.SetInt(self.randSeed.Int63n((100 - 1) + 1))
+			val.SetInt(self.randSeed.Int63n(100) + 1)
 			return
 		} else if val.Kind() == reflect.Uint ||
 			val.Kind() == reflect.Uint8 ||
 			val.Kind() == reflect.Uint16 ||
 			val.Kind() == reflect.Uint32 ||
 			val.Kind() == reflect.Uint64 {
-			val.SetUint(uint64(self.randSeed.Int63n((100 - 1) + 1)))
+			val.SetUint(uint64(self.randSeed.Int63n(100) + 1))
 			return
 		} else if val.Kind() == reflect.Float32 ||
 			val.Kind() == reflect.Float64 {
